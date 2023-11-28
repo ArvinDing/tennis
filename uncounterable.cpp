@@ -14,7 +14,7 @@ public:
 
 	virtual ~Player() {
 	}
-	virtual int play(int soilders, int oppSoilders, int score) =0;
+	virtual int play(int soldiers, int oppSoldiers, int score) =0;
 };
 
 class RandomPlayer: public Player {
@@ -22,9 +22,8 @@ public:
 	RandomPlayer() {
 
 	}
-	int play(int soilders, int oppSoilders, int score) override {
-		int use = rand() % (soilders + 1);
-		soilders -= use;
+	int play(int soldiers, int oppSoldiers, int score) override {
+		int use = rand() % (soldiers + 1);
 		return use;
 	}
 };
@@ -32,8 +31,8 @@ public:
 class Game {
 	shared_ptr<Player> a;
 	shared_ptr<Player> b;
-	int aSoilders = TROOPS;
-	int bSoilders = TROOPS;
+	int aSoldiers = TROOPS;
+	int bSoldiers = TROOPS;
 	int score = 0;
 public:
 	Game(shared_ptr<Player> a, shared_ptr<Player> b) :
@@ -41,9 +40,9 @@ public:
 	}
 	//1 if a wins,0 tie, -1 if b wins
 	int play() {
-		while (aSoilders || bSoilders) {
-			int aTurn = a->play(aSoilders, bSoilders, score);
-			int bTurn = b->play(bSoilders, aSoilders, -score);
+		while (aSoldiers || bSoldiers) {
+			int aTurn = a->play(aSoldiers, bSoldiers, score);
+			int bTurn = b->play(bSoldiers, aSoldiers, -score);
 			if (aTurn > bTurn) {
 				score++;
 			}
@@ -229,12 +228,12 @@ int main() {
 
 	shared_ptr<perfectPlayer> smart = make_shared<perfectPlayer>();
 	smart->think();
-	int botSoilders = 50;
-	int alexSoilders = 50;
+	int botSoldiers = 50;
+	int alexSoldiers = 50;
 	int score = 0;
 	while (true) {
-		smart->printThoughts(botSoilders, alexSoilders, score);
-		int move = smart->play(botSoilders, alexSoilders, score);
+		smart->printThoughts(botSoldiers, alexSoldiers, score);
+		int move = smart->play(botSoldiers, alexSoldiers, score);
 		cout << move << "\n";
 		int alex;
 		cin >> alex;
@@ -242,8 +241,8 @@ int main() {
 			score++;
 		if (move < alex)
 			score--;
-		alexSoilders -= alex;
-		botSoilders -= move;
+		alexSoldiers -= alex;
+		botSoldiers -= move;
 	}
 
 }
